@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +34,20 @@ public class Instructor {
 
     private boolean active;
 
-    @ManyToOne
+    private String country;
+
+    private String state;
+
+    private LocalDate dob;
+
+    private String avatarUrl;
+
+
+    @OneToOne
     private Course course;
+
+    @OneToMany
+    private  List<Cohort> cohortList = new ArrayList<>();
 
 @ManyToMany
     private List<Course> courseList = new ArrayList<>();
