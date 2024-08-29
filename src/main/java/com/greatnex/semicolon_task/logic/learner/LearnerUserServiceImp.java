@@ -45,10 +45,9 @@ public class LearnerUserServiceImp implements LearnerUserService{
     @Override
     public Optional<Learner> viewLearnerProfile(LearnerDto learnerDto) {
 
-        Optional<Learner> viewLearner =  learnerRepository.findByEmail(learnerDto.getEmail());
-        return viewLearner;
+        return learnerRepository.findByEmail(learnerDto.getEmail());
 
-    }
+   }
 
     @Override
     public Learner updateLearnerProfile(Long id, LearnerDto profile) throws Exception {
@@ -78,4 +77,24 @@ if (learner!=null){
     public void deleteLearnerById(Long id) {
         learnerRepository.findById(id);
     }
+
+//    @Transactional
+//    Role createRoleIfNotFound(
+//            String name) {
+//
+//        Role role = roleRepository.findByName(name);
+//        if (role == null) {
+//            role = new Role(name);
+//            roleRepository.save(role);
+//        }
+//        return role;
+//    }
+//
+//    @Override
+//    public void addRoleToUser(String username, String roleName) {
+//        log.info("Adding role {} to user {}", roleName, username);
+//        PlatformUser user = userRepository.findByUserNameIgnoreCase(username).get();
+//        Role role = roleRepository.findByName(roleName);
+//        user.getRoles().add(role);
+//    }
 }

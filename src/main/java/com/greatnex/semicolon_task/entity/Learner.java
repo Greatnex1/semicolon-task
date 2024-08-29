@@ -22,7 +22,6 @@ public class Learner {
     private String lastName;
 
     @Column(unique = true, updatable = false)
-
     private String email;
 
      private  String learnerAbout;
@@ -32,20 +31,17 @@ public class Learner {
      private boolean active;
 
      private String lastActivity;
+
      private String avatar;
 
      @ManyToOne
      private Cohort cohort;
 
 
-//     @ManyToOne
-//     private List<Cohort> cohortList = new ArrayList<>();
-
     @ManyToMany
     private List<Program> listOfProgram = new ArrayList<>();
 
-  // @ManyToMany
- //  private Course course;
+
 
 
 }
