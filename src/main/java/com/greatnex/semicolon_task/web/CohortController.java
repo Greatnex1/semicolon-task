@@ -14,15 +14,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class CohortController {
+
+    private final CohortService cohortService;
+
+    @Autowired
+    public CohortController(CohortService cohortService) {
+        this.cohortService = cohortService;
+    }
 
     @GetMapping("/cohort")
     public String cohort(){
         return "Create a cohort!!";
     }
-    @Autowired
-    private  CohortService cohortService;
+
 
     @PostMapping("/cohort/new")
     public ResponseEntity<?> createCohort(@RequestBody CohortDto cohortDto) throws Exception {
@@ -31,14 +39,23 @@ public class CohortController {
 
     @GetMapping("/cohorts")
     public ResponseEntity<Page<Cohort>> getAllCohortOnThePlatform(){
-        return ResponseEntity.ok(cohortService.findAllCohort(Pageable.ofSize(10)));
+        return ResponseEntity.ok(cohortService.findAllCohortByPagination(Pageable.ofSize(10)));
     }
+//    @GetMapping("/cohort/{cohort_id}")
+//    public ResponseEntity<?> findCohortById(@PathVariable @NotBlank(message = "require valid parameter") Long cohort_id) {
+//        try {
+//            return ResponseEntity.ok(cohortService.findCohortById(cohort_id));
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+
     @GetMapping("/cohort/{cohort_id}")
-    public ResponseEntity<?> findCohortById(@PathVariable @NotBlank(message = "require valid parameter") Long cohort_id) {
+    public ResponseEntity <List<Cohort>> findCohortByIdWithoutPagination(@PathVariable @NotBlank(message = "require valid parameter") Long cohort_id) {
         try {
-            return ResponseEntity.ok(cohortService.findCohortById(cohort_id));
+            return ResponseEntity.ok(cohortService.findAllCohorts(cohort_id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
@@ -56,7 +73,7 @@ public class CohortController {
     @DeleteMapping("/cohort/delete/{cohort_id}")
     public ResponseEntity<?> deleteCohort(@PathVariable("cohort_id")Long cohort_id){
         cohortService.deleteCohort(cohort_id);
-        return new ResponseEntity<>("Successfully delete post", HttpStatus.OK);
+        return new ResponseEntity<>("Cohort deleted", HttpStatus.OK);
     }
 
 }

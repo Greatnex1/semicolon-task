@@ -1,22 +1,19 @@
 package com.greatnex.semicolon_task.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
-
-//@Data
 @Entity
 @Data
+//@Builder
+//@RequiredArgsConstructor
 public class Cohort {
     @Id
     @GeneratedValue
@@ -40,6 +37,9 @@ public class Cohort {
 
     private String shareResource;
 
+    @OneToOne
+private Instructor instructor;
+
    @OneToMany
    private List<Program> programList = new ArrayList<>();
 
@@ -51,5 +51,9 @@ public class Cohort {
 
 @OneToMany
    private List<Course> courseList = new ArrayList<>();
+
+//    @ElementCollection(fetch = FetchType.LAZY)
+//    @ToString.Exclude
+//    Set<String> instructors = new HashSet<>();
 
 }
