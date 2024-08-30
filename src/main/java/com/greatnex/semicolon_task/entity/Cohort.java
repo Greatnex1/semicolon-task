@@ -1,13 +1,12 @@
 package com.greatnex.semicolon_task.entity;
 
+import com.greatnex.semicolon_task.entity.users.Instructor;
+import com.greatnex.semicolon_task.entity.users.Learner;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity

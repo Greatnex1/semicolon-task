@@ -1,5 +1,7 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.users;
 
+import com.greatnex.semicolon_task.entity.Cohort;
+import com.greatnex.semicolon_task.entity.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;

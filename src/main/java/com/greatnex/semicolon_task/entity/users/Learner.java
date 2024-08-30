@@ -1,14 +1,18 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.users;
 
+import com.greatnex.semicolon_task.entity.Cohort;
+import com.greatnex.semicolon_task.entity.Program;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
+@RequiredArgsConstructor
 public class Learner {
 
     @Id
