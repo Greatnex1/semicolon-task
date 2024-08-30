@@ -1,6 +1,6 @@
 package com.greatnex.semicolon_task.repository;
 
-import com.greatnex.semicolon_task.entity.Learner;
+import com.greatnex.semicolon_task.entity.users.Learner;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
