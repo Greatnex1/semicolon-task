@@ -1,9 +1,8 @@
 package com.greatnex.semicolon_task.web;
 
 import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.entity.Learner;
+import com.greatnex.semicolon_task.entity.users.Learner;
 import com.greatnex.semicolon_task.logic.learner.LearnerUserServiceImp;
-import org.hibernate.annotations.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +19,10 @@ public class LearnerController {
 
     @GetMapping("/learner")
     public String instructor(){
-        return "Create a learner account";
+        return "No learner account created yet";
     }
 
-    @PostMapping("/learner/create")
+    @PostMapping("/learner/new")
     public ResponseEntity<?> createLearner(@RequestBody LearnerDto learnerDto) throws Exception {
         return new ResponseEntity<>(learnerUserServiceImp.createNewLearner(learnerDto), HttpStatus.CREATED);
     }

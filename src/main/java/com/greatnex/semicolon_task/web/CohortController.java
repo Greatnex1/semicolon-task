@@ -28,7 +28,7 @@ public class CohortController {
 
     @GetMapping("/cohort")
     public String cohort(){
-        return "Create a cohort!!";
+        return "No cohort created yet, Create a cohort!!";
     }
 
 
@@ -50,10 +50,10 @@ public class CohortController {
 //        }
 //    }
 
-    @GetMapping("/cohort/{cohort_id}")
-    public ResponseEntity <List<Cohort>> findCohortByIdWithoutPagination(@PathVariable @NotBlank(message = "require valid parameter") Long cohort_id) {
+    @GetMapping("/cohort/all")
+    public ResponseEntity <List<Cohort>> findCohortByIdWithoutPagination()  {
         try {
-            return ResponseEntity.ok(cohortService.findAllCohorts(cohort_id));
+            return ResponseEntity.ok(cohortService.findAllCohorts());
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
@@ -64,15 +64,15 @@ public class CohortController {
         return ResponseEntity.ok(cohortService.addLearnerToCohort(LearnerDto));
     }
 
-//    @PatchMapping("/cohort/edit")
-//    public ResponseEntity<Cohort> editCohort(@RequestBody CohortDto cohortDto,@RequestParam Long id ){
-//
-//        return ResponseEntity.ok(cohortService.updateCohort(id, cohortDto));
-//    }
-
     @DeleteMapping("/cohort/delete/{cohort_id}")
-    public ResponseEntity<?> deleteCohort(@PathVariable("cohort_id")Long cohort_id){
+    public ResponseEntity<?> removeCohortById(@PathVariable("cohort_id")Long cohort_id){
         cohortService.deleteCohort(cohort_id);
+        return new ResponseEntity<>("Cohort deleted", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/cohort/delete/{cohort_name}")
+    public ResponseEntity<?> removeCohortByCohortName(@PathVariable("cohort_name")String cohort_name){
+        cohortService.deleteCohort(cohort_name);
         return new ResponseEntity<>("Cohort deleted", HttpStatus.OK);
     }
 

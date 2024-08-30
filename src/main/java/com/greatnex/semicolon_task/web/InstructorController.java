@@ -1,9 +1,7 @@
 package com.greatnex.semicolon_task.web;
 
-import com.greatnex.semicolon_task.dtos.CohortDto;
 import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.entity.Instructor;
+import com.greatnex.semicolon_task.entity.users.Instructor;
 import com.greatnex.semicolon_task.logic.instructor.InstructorServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +30,7 @@ public class InstructorController {
 
     @GetMapping("/instructors")
     public ResponseEntity<Page<Instructor>> getAllInstructorOnThePlatform(){
-        return ResponseEntity.ok(instructorService.findAllInstructors(Pageable.ofSize(5)));
+        return ResponseEntity.ok(instructorService.findAllInstructorsUsingPagination(Pageable.ofSize(5)));
     }
 
     @DeleteMapping("/instructor/delete/{instructor_id}")

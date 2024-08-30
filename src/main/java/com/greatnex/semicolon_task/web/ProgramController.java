@@ -33,6 +33,13 @@ public class ProgramController {
         return ResponseEntity.ok(programService.findAllPrograms(Pageable.ofSize(5)));
     }
 
+    @PutMapping("program/archive")
+    public ResponseEntity<?> archiveProgram(ProgramDto programDto)  {
+        return new ResponseEntity<>(programService.archiveProgram(programDto), HttpStatus.ACCEPTED);
+
+    }
+
+
     @DeleteMapping("/program/delete/{program_id}")
     public ResponseEntity<?> deleteProgramById(@PathVariable("program_id")Long program_id){
        programService.deleteProgramById(program_id);
