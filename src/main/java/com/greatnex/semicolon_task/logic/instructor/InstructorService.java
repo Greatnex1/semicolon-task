@@ -1,16 +1,11 @@
 package com.greatnex.semicolon_task.logic.instructor;
 
 import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.dtos.LearnerDto;
 import com.greatnex.semicolon_task.dtos.UserProfileDto;
-import com.greatnex.semicolon_task.entity.Instructor;
-import com.greatnex.semicolon_task.entity.Learner;
-import com.greatnex.semicolon_task.exception.LearnerAlreadyExistException;
+import com.greatnex.semicolon_task.entity.users.Instructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -21,7 +16,7 @@ public interface InstructorService {
 
     Instructor updateInstructorProfile(Long userid, UserProfileDto profile) throws Exception;
 
-    Page<Instructor> findAllInstructors(Pageable pageable);
+    Page<Instructor> findAllInstructorsUsingPagination(Pageable pageable);
 
     Optional<Instructor> findInstructorById(Long id);
 

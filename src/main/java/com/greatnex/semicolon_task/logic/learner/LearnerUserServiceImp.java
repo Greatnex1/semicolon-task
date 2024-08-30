@@ -1,10 +1,9 @@
 package com.greatnex.semicolon_task.logic.learner;
 
 import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.dtos.UserProfileDto;
-import com.greatnex.semicolon_task.entity.Instructor;
-import com.greatnex.semicolon_task.entity.Learner;
+import com.greatnex.semicolon_task.entity.users.Learner;
 import com.greatnex.semicolon_task.exception.LearnerAlreadyExistException;
+import com.greatnex.semicolon_task.exception.LearnerNotFoundException;
 import com.greatnex.semicolon_task.repository.LearnerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -43,24 +42,29 @@ public class LearnerUserServiceImp implements LearnerUserService{
     }
 
     @Override
-    public Optional<Learner> viewLearnerProfile(LearnerDto learnerDto) {
+    public List<Learner> viewLearnerProfile() {
 
-        return learnerRepository.findByEmail(learnerDto.getEmail());
-
+        return learnerRepository.findAll();
    }
 
     @Override
-    public Learner updateLearnerProfile(Long id, LearnerDto profile) throws Exception {
-Learner learner = learnerRepository.findById(id).orElseThrow(()-> new Exception("Learner not found"));
-if (learner!=null){
-    learnerMapper.map(profile, learner);
-    learner.setLearnerAbout(profile.getLearnerAbout());
-    learner.setAvatar(profile.getAvatarUrl());
+    public Learner findLearnerByEmail(String email) {
+     return  learnerRepository.findByEmail(email).orElseThrow(
+             ()-> new LearnerNotFoundException("Learner does not exist"));
+    }
 
-     learnerRepository.save(learner);
-}
+    @Override
+    public Learner updateLearnerProfile(Long id, LearnerDto profile) throws Exception {
+        Learner learner = learnerRepository.findById(id).orElseThrow(()-> new Exception("Learner not found"));
+          if (learner!=null){
+        learnerMapper.map(profile, learner);
+          learner.setLearnerAbout(profile.getLearnerAbout());
+         learner.setAvatar(profile.getAvatarUrl());
+
+        learnerRepository.save(learner);
+          }
      return learner;
-}
+     }
 
     @Override
     public Page<Learner> findAllLearners(Pageable pageable) {
@@ -70,6 +74,7 @@ if (learner!=null){
 
     @Override
     public void deleteLearnerByEmail(String email) {
+        Learner learner = learnerRepository.findByEmail(email).orElseThrow(()-> new LearnerNotFoundException("Learner account not found"));
         learnerRepository.findByEmail(email);
     }
 
@@ -78,23 +83,4 @@ if (learner!=null){
         learnerRepository.findById(id);
     }
 
-//    @Transactional
-//    Role createRoleIfNotFound(
-//            String name) {
-//
-//        Role role = roleRepository.findByName(name);
-//        if (role == null) {
-//            role = new Role(name);
-//            roleRepository.save(role);
-//        }
-//        return role;
-//    }
-//
-//    @Override
-//    public void addRoleToUser(String username, String roleName) {
-//        log.info("Adding role {} to user {}", roleName, username);
-//        PlatformUser user = userRepository.findByUserNameIgnoreCase(username).get();
-//        Role role = roleRepository.findByName(roleName);
-//        user.getRoles().add(role);
-//    }
 }

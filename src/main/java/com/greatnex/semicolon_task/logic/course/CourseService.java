@@ -16,17 +16,16 @@ import java.util.UUID;
 
 public interface CourseService {
 
-
     Course createNewCourse(CourseDto courseDto ) throws Exception;
 
 
-    List<Course> viewCourse(CourseDto courseDto);
+//    List<Course> viewCourse(CourseDto courseDto);
+Course viewCourse(Long id, CourseDto courseDto);
 
     Course updateCourse (Long courseId, CourseDto courseDto) throws Exception;
 
    Course assignInstructorToCourse(InstructorDto instructorDto) throws Exception;
-   // void deleteCourse(Long courseId);
-//   Optional<Course> assignInstructorToCourse(InstructorDto instructorDto) throws Exception;
+
 
     Page<Course> findAllCourseByPagination(Pageable pageable);
 
