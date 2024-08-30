@@ -2,8 +2,7 @@ package com.greatnex.semicolon_task.logic.instructor;
 
 import com.greatnex.semicolon_task.dtos.InstructorDto;
 import com.greatnex.semicolon_task.dtos.UserProfileDto;
-import com.greatnex.semicolon_task.entity.Instructor;
-import com.greatnex.semicolon_task.entity.Learner;
+import com.greatnex.semicolon_task.entity.users.Instructor;
 import com.greatnex.semicolon_task.repository.InstructorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,7 @@ public class InstructorServiceImp implements InstructorService{
 
         Instructor instructor = instructorRepository.findByEmail(instructorDto.getEmail()).orElse(null);
 
-        if (instructor!= null){
+        if (instructor!=null){
             log.warn("Instructor with this email already exist :{} ", instructorDto.getEmail());
             throw new Exception("Instructor with this email already exist " + instructorDto.getEmail());
         }
@@ -43,7 +42,7 @@ public class InstructorServiceImp implements InstructorService{
     }
 
     @Override
-    public Optional <Instructor> viewInstructorProfile(InstructorDto instructorDto) {
+    public Optional<Instructor> viewInstructorProfile(InstructorDto instructorDto) {
 
         return instructorRepository.findByEmail(instructorDto.getEmail());
     }
@@ -60,7 +59,7 @@ public class InstructorServiceImp implements InstructorService{
         return instructor;
     }
     @Override
-    public Page<Instructor> findAllInstructors(Pageable pageable) {
+    public Page<Instructor> findAllInstructorsUsingPagination(Pageable pageable) {
         return instructorRepository.findAll(pageable);
     }
 

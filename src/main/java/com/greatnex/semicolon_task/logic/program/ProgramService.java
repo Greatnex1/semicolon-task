@@ -11,7 +11,7 @@ public interface ProgramService {
     Program createNewProgram(ProgramDto programDto ) throws Exception;
     Page<Program> findAllPrograms(Pageable pageable);
 
-      Program archiveProgram(ProgramDto programDto) throws Exception;
+      Program archiveProgram(ProgramDto programDto);
 
      Program viewProgram(Long id);
 

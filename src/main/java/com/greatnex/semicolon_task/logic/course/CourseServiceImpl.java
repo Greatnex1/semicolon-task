@@ -3,35 +3,32 @@ package com.greatnex.semicolon_task.logic.course;
 import com.greatnex.semicolon_task.dtos.CourseDto;
 import com.greatnex.semicolon_task.dtos.InstructorDto;
 import com.greatnex.semicolon_task.entity.Course;
-import com.greatnex.semicolon_task.entity.Instructor;
-import com.greatnex.semicolon_task.entity.Learner;
+import com.greatnex.semicolon_task.entity.users.Instructor;
+import com.greatnex.semicolon_task.exception.CourseNotFoundException;
 import com.greatnex.semicolon_task.repository.CourseRepository;
 import com.greatnex.semicolon_task.repository.InstructorRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-// check viewCourse and assign... through;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class CourseServiceImpl implements CourseService{
-    private  final CourseRepository courseRepository;
+public class CourseServiceImpl implements CourseService {
+    private final CourseRepository courseRepository;
 
     private final InstructorRepository instructorRepository;
 
-   private ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
-    public Course createNewCourse(CourseDto courseDto)  {
+    public Course createNewCourse(CourseDto courseDto) {
 
         Course course = new Course();
 
@@ -43,14 +40,21 @@ public class CourseServiceImpl implements CourseService{
 
         log.info("Course Created!");
 
-        return  courseRepository.save(course);
+        return courseRepository.save(course);
     }
 
     @Override
-    public List<Course> viewCourse(CourseDto courseDto) {
+    public Course viewCourse(Long courseId, CourseDto courseDto) {
 
-        return courseRepository.findAll();
+        Course viewCourse = courseRepository.findById(courseId).orElseThrow(
+                () -> new CourseNotFoundException("Course not found"));
+        if (viewCourse != null) {
+            modelMapper.map(courseDto, viewCourse);
+
+        }
+        return viewCourse;
     }
+
 
     @Override
     public Course updateCourse(Long courseId, CourseDto courseDto) throws Exception {
@@ -73,8 +77,8 @@ public class CourseServiceImpl implements CourseService{
         instructor.setFirstName(instructorDto.getLastname());
         instructor.setLastName(instructorDto.getLastname());
         instructor.setDateCreated(Instant.now().toString());
-       // instructor.setLastActivity(instructorDto.getLastActivity);
-      //  instructor.setOrganization(instructorDto.getOrganization);
+        instructor.setLastActivity(instructorDto.getLastActivity());
+       instructor.setOrganization(instructorDto.getOrganization());
 
 
         instructor.setCourse(course);
@@ -98,7 +102,6 @@ public class CourseServiceImpl implements CourseService{
 
         return courseRepository.findById(id);
     }
-
 
     @Override
     public void deleteCourse(Long courseId) {

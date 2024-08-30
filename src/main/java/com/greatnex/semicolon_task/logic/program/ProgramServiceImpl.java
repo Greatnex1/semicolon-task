@@ -4,6 +4,7 @@ import com.greatnex.semicolon_task.dtos.ProgramDto;
 import com.greatnex.semicolon_task.entity.ArchiveProgram;
 import com.greatnex.semicolon_task.entity.Course;
 import com.greatnex.semicolon_task.entity.Program;
+import com.greatnex.semicolon_task.exception.ProgramNotFoundException;
 import com.greatnex.semicolon_task.repository.ArchiveRepository;
 import com.greatnex.semicolon_task.repository.ProgramRepository;
 import lombok.AllArgsConstructor;
@@ -44,9 +45,9 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public Program archiveProgram(ProgramDto programDto) throws Exception {
+    public Program archiveProgram(ProgramDto programDto)  {
         Program program = programRepository.findById(programDto.getId()).orElseThrow(
-                () -> new Exception("this PROGRAM does not exist"));
+                () -> new ProgramNotFoundException("this PROGRAM does not exist"));
 
         ArchiveProgram archiveProgram = new ArchiveProgram();
 
