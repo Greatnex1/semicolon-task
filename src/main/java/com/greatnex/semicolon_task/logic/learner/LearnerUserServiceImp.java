@@ -26,7 +26,7 @@ public class LearnerUserServiceImp implements LearnerUserService{
     @Override
     public Learner createNewLearner(LearnerDto learnerDto) throws LearnerAlreadyExistException {
 
-        Learner learner = learnerRepository.findByEmail(learnerDto.getEmail()).orElse(null);
+        Learner learner = learnerRepository.findByEmail(learnerDto.getEmail().toLowerCase()).orElse(null);
 
         if (learner!=null){
            log.info("this email {} is already taken",learner.getEmail());
@@ -54,8 +54,8 @@ public class LearnerUserServiceImp implements LearnerUserService{
     }
 
     @Override
-    public Learner updateLearnerProfile(Long id, LearnerDto profile) throws Exception {
-        Learner learner = learnerRepository.findById(id).orElseThrow(()-> new Exception("Learner not found"));
+    public Learner updateLearnerProfile(Long id, LearnerDto profile) {
+        Learner learner = learnerRepository.findById(id).orElseThrow(()-> new LearnerNotFoundException("Learner not found"));
           if (learner!=null){
         learnerMapper.map(profile, learner);
           learner.setLearnerAbout(profile.getLearnerAbout());
@@ -74,13 +74,16 @@ public class LearnerUserServiceImp implements LearnerUserService{
 
     @Override
     public void deleteLearnerByEmail(String email) {
-        Learner learner = learnerRepository.findByEmail(email).orElseThrow(()-> new LearnerNotFoundException("Learner account not found"));
-        learnerRepository.findByEmail(email);
+        Learner learner = learnerRepository.findByEmail(email).orElseThrow(
+                ()-> new LearnerNotFoundException("Learner account not found"));
+        learnerRepository.findByEmail(learner.getEmail());
+
+        learnerRepository.findById(learner.getId());
     }
 
     @Override
     public void deleteLearnerById(Long id) {
-        learnerRepository.findById(id);
+        learnerRepository.deleteById(id);
     }
 
 }

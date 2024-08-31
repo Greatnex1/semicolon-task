@@ -10,7 +10,7 @@ import java.util.Optional;
 
 
 public interface InstructorService {
-    Instructor createNewInstructor(InstructorDto instructorDto ) throws Exception;
+    Instructor createNewInstructor(InstructorDto instructorDto ) ;
 
     Optional<Instructor> viewInstructorProfile(InstructorDto InstructorDto);
 

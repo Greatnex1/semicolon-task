@@ -3,6 +3,8 @@ package com.greatnex.semicolon_task.logic.instructor;
 import com.greatnex.semicolon_task.dtos.InstructorDto;
 import com.greatnex.semicolon_task.dtos.UserProfileDto;
 import com.greatnex.semicolon_task.entity.users.Instructor;
+import com.greatnex.semicolon_task.exception.InstructorAlreadyExistException;
+import com.greatnex.semicolon_task.exception.InstructorNotFoundException;
 import com.greatnex.semicolon_task.repository.InstructorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,18 +27,21 @@ public class InstructorServiceImp implements InstructorService{
 
 
     @Override
-    public Instructor createNewInstructor(InstructorDto instructorDto) throws Exception {
+    public Instructor createNewInstructor(InstructorDto instructorDto)  {
 
-        Instructor instructor = instructorRepository.findByEmail(instructorDto.getEmail()).orElse(null);
+        Instructor instructor = instructorRepository.findByEmail(instructorDto.getEmail().toLowerCase()).orElse(null);
 
-        if (instructor!=null){
+        if (instructor != null){
             log.warn("Instructor with this email already exist :{} ", instructorDto.getEmail());
-            throw new Exception("Instructor with this email already exist " + instructorDto.getEmail());
+            throw new InstructorAlreadyExistException("Instructor with this email already exist " + instructorDto.getEmail());
+
         }
         instructor.setEmail(instructorDto.getEmail());
         instructor.setFirstName(instructorDto.getFirstname());
         instructor.setLastName(instructorDto.getLastname());
         instructor.setActive(true);
+
+
 
         return instructorRepository.save(instructor);
     }
@@ -48,8 +53,8 @@ public class InstructorServiceImp implements InstructorService{
     }
 
     @Override
-    public Instructor updateInstructorProfile(Long instructor_id, UserProfileDto profile) throws Exception {
-        Instructor instructor = instructorRepository.findById(instructor_id).orElseThrow(()-> new Exception("Instructor account does not exist"));
+    public Instructor updateInstructorProfile(Long instructor_id, UserProfileDto profile)  {
+        Instructor instructor = instructorRepository.findById(instructor_id).orElseThrow(()-> new InstructorNotFoundException("Instructor account does not exist"));
         if(instructor!= null){
             instructorMapper.map(profile,instructor);
             instructor.setCountry(profile.getCountry());
@@ -77,3 +82,11 @@ public class InstructorServiceImp implements InstructorService{
         instructorRepository.findById(id);
     }
 }
+
+//
+//    String role = "User";
+//        if(roleRepository.findByName(role) == null){
+//                user.getRoles().add(roleRepository.save(new Role("User")));
+//                }else {
+//                user.getRoles().add(roleRepository.findByName(role));
+//                }

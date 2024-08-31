@@ -12,21 +12,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 public interface CourseService {
 
     Course createNewCourse(CourseDto courseDto ) throws Exception;
 
-
-//    List<Course> viewCourse(CourseDto courseDto);
 Course viewCourse(Long id, CourseDto courseDto);
 
     Course updateCourse (Long courseId, CourseDto courseDto) throws Exception;
 
-   Course assignInstructorToCourse(InstructorDto instructorDto) throws Exception;
+//   Course assignInstructorToCourse(InstructorDto instructorDto) throws Exception;
 
-
+   Set<String> assignInstructorToCourse(Long id, InstructorDto instructorDto) ;
     Page<Course> findAllCourseByPagination(Pageable pageable);
 
     void findCourseByTitle(String courseTitle);

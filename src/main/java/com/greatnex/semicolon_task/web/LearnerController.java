@@ -1,7 +1,9 @@
 package com.greatnex.semicolon_task.web;
 
 import com.greatnex.semicolon_task.dtos.LearnerDto;
+import com.greatnex.semicolon_task.dtos.UserProfileDto;
 import com.greatnex.semicolon_task.entity.users.Learner;
+import com.greatnex.semicolon_task.exception.InstructorNotFoundException;
 import com.greatnex.semicolon_task.logic.learner.LearnerUserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,15 @@ public class LearnerController {
     @GetMapping("/learners")
     public ResponseEntity<Page<Learner>> getAllLearnerOnThePlatform(){
         return ResponseEntity.ok(learnerUserServiceImp.findAllLearners(Pageable.ofSize(5)));
+    }
+    @PatchMapping("/user/learner/profile-edit")
+    public ResponseEntity<?> updateInstructorProfile(@RequestParam Long learnerId, @RequestBody LearnerDto learnerDto) {
+        try {
+            return new ResponseEntity<>(learnerUserServiceImp.updateLearnerProfile(learnerId, learnerDto), HttpStatus.OK);
+        }
+        catch (InstructorNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/learner/delete/{learner_id}")

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 @Slf4j
 @Service
@@ -68,8 +69,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course assignInstructorToCourse(InstructorDto instructorDto) throws Exception {
-       Course course = courseRepository.findByCourseTitle(instructorDto.getEmail()).orElseThrow(()-> new Exception("Instructor does not exist"));
+    public Set<String> assignInstructorToCourse(Long id, InstructorDto instructorDto)  {
+       Course course = courseRepository.findById(id).orElseThrow(()-> new CourseNotFoundException("Course does not exist"));
 
         Instructor instructor = new Instructor();
 
@@ -83,8 +84,8 @@ public class CourseServiceImpl implements CourseService {
 
         instructor.setCourse(course);
         instructorRepository.save(instructor);
-        instructor.getCourseList().add(course);
-        return course;
+        instructor.getCourseList().add(course.getCourseTitle());
+        return instructor.getCourseList();
     }
 
     @Override

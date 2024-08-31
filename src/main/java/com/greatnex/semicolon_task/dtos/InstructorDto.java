@@ -9,6 +9,7 @@ import lombok.Setter;
 @Data
 public class InstructorDto {
 
+
     @NotEmpty
     private String firstname;
 
@@ -21,4 +22,8 @@ public class InstructorDto {
     private String gender;
 
     private boolean isActive;
+
+    private String lastActivity;
+
+    public String Organization;
 }

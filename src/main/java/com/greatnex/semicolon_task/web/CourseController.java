@@ -40,8 +40,8 @@ public class CourseController {
     }
 
     @PutMapping("/course/instructor")
-    public ResponseEntity<?> addInstructorToCourse(@RequestBody @Valid InstructorDto InstructorDto) throws Exception {
-        return ResponseEntity.ok(courseService.assignInstructorToCourse(InstructorDto));
+    public ResponseEntity<?> addInstructorToCourse(@RequestBody @Valid Long id, InstructorDto InstructorDto)  {
+        return ResponseEntity.ok(courseService.assignInstructorToCourse(id, InstructorDto));
     }
 
     @GetMapping("/course/{course_id}")
@@ -52,6 +52,7 @@ public class CourseController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @DeleteMapping("/course/delete/{course_id}")
     public ResponseEntity<?> deleteCourseById(@PathVariable("course_id")Long course_id){

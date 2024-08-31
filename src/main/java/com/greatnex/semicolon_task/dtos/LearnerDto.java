@@ -10,8 +10,6 @@ import java.time.LocalDate;
 @Data
 public class LearnerDto {
 
-    private Long id;
-
     @NotEmpty
     private String firstname;
 
@@ -31,7 +29,7 @@ public class LearnerDto {
 
     private String state;
 
-    private LocalDate dob;
+    private String dob;
 
     private String avatarUrl;
 

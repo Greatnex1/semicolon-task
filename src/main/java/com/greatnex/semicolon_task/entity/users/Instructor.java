@@ -7,10 +7,13 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -51,8 +54,10 @@ public class Instructor {
     @OneToMany
     private  List<Cohort> cohortList = new ArrayList<>();
 
-@ManyToMany
-    private List<Course> courseList = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.LAZY)
+    @ToString.Exclude
+     Set <String> courseList = new HashSet<>();
 
-
+//    @ManyToMany
+//    Set <Course> courseList = new HashSet<>();
 }
