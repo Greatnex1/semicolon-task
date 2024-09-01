@@ -24,19 +24,21 @@ public class LearnerUserServiceImp implements LearnerUserService{
       private ModelMapper learnerMapper;
 
     @Override
-    public Learner createNewLearner(LearnerDto learnerDto) throws LearnerAlreadyExistException {
+    public Learner createNewLearner(LearnerDto learnerDto) {
 
-        Learner learner = learnerRepository.findByEmail(learnerDto.getEmail().toLowerCase()).orElse(null);
-
-        if (learner!=null){
-           log.info("this email {} is already taken",learner.getEmail());
-           throw new LearnerAlreadyExistException("This email {} is already taken" + learner.getEmail());
-        }
         Learner semicolonLearner = new Learner();
-        semicolonLearner.setEmail(learnerDto.getEmail().toLowerCase().trim());
+        semicolonLearner.setEmail(learnerDto.getEmail());
         semicolonLearner.setFirstName(learnerDto.getFirstname());
         semicolonLearner.setLastName(learnerDto.getLastname());
         semicolonLearner.setDateCreated(Instant.now().toString());
+
+        Learner learner = learnerRepository.findByEmail(learnerDto.getEmail()).orElse(null);
+
+                if (learner!=null){
+           log.info("this email {} is already taken, please use another email",learner.getEmail());
+           throw new LearnerAlreadyExistException("This email {} is already taken" + learner.getEmail());
+        }
+
 
         return   learnerRepository.save(semicolonLearner);
     }
