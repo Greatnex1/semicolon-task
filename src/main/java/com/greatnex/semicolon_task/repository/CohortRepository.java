@@ -11,8 +11,10 @@ public interface CohortRepository extends JpaRepository<Cohort, Long> {
 
     Optional <Cohort> findCohortById(Long id);
 
-
+  //   Cohort findById(Long id);
 
     Optional<Cohort> findByCohortName(String cohortName);
+
+
 
 }
