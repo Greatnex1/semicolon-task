@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
-//@Builder
-//@RequiredArgsConstructor
+
+@RequiredArgsConstructor
 public class Cohort {
     @Id
     @GeneratedValue
@@ -28,8 +28,6 @@ public class Cohort {
 
     private String cohortAvatar;
 
-    private String learners;
-
     private String scheduleAnEvent;
 
     private String announcement;
@@ -37,19 +35,17 @@ public class Cohort {
     private String shareResource;
 
     @OneToOne
-private Instructor instructor;
+   private Instructor instructor;
+
+    @OneToOne
+     private Learner learner;
 
    @OneToMany
    private List<Program> programList = new ArrayList<>();
 
-  @OneToMany
-   private List<Instructor> instructorList = new ArrayList<>();
 
-   @OneToMany
-   private List<Learner> listOfLearners = new ArrayList<>();
-
-@OneToMany
-   private List<Course> courseList = new ArrayList<>();
+    @OneToMany
+     private List<Course> courseList = new ArrayList<>();
 
 //    @ElementCollection(fetch = FetchType.LAZY)
 //    @ToString.Exclude

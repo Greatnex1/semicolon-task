@@ -47,7 +47,6 @@ public class Instructor {
 
     private String avatarUrl;
 
-
     @OneToOne
     private Course course;
 
@@ -58,6 +57,4 @@ public class Instructor {
     @ToString.Exclude
      Set <String> courseList = new HashSet<>();
 
-//    @ManyToMany
-//    Set <Course> courseList = new HashSet<>();
 }

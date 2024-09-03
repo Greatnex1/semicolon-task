@@ -20,11 +20,15 @@ public class Course {
 
     private String coursePeriod;
 
+    private String courseInformation;
+
     private String quizzes;
 
     private String polls;
 
     private String learners ;
+
+    private Module module;
 
 //   @OneToMany
 //    private Instructors listOfInstructors;

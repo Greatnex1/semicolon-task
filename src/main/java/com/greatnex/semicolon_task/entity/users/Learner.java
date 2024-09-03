@@ -6,9 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -38,8 +41,9 @@ public class Learner {
 
      private String avatar;
 
-     @ManyToOne
-     private Cohort cohort;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @ToString.Exclude
+   Set <String> listOfCohort = new HashSet<>();
 
 
     @ManyToMany
