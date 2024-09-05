@@ -27,11 +27,6 @@ public class InstructorController {
         return "Create an instructor account";
     }
 
-    @PostMapping("/instructor/new")
-    public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto)  {
-        return new ResponseEntity<>(instructorService.createNewInstructor(instructorDto), HttpStatus.CREATED);
-    }
-
     @GetMapping("/instructors")
     public ResponseEntity<Page<Instructor>> getAllInstructorOnThePlatform(){
         return ResponseEntity.ok(instructorService.getAllInstructorsUsingPagination(Pageable.ofSize(5)));
@@ -43,7 +38,12 @@ public class InstructorController {
         return ResponseEntity.ok(instructorService.getInstructorById(id));
     }
 
-    @PatchMapping("/user/instructor/profile-edit")
+    @PostMapping("/instructor/new")
+    public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto)  {
+        return new ResponseEntity<>(instructorService.createNewInstructor(instructorDto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/user/instructor/profile-edit")
     public ResponseEntity<?> updateInstructorProfile(@RequestParam Long instructorId, @RequestBody UserProfileDto userProfileDto) {
         try {
             return new ResponseEntity<>(instructorService.updateInstructorProfile(instructorId, userProfileDto), HttpStatus.OK);
