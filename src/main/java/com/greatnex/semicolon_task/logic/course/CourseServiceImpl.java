@@ -1,9 +1,9 @@
 package com.greatnex.semicolon_task.logic.course;
 
-import com.greatnex.semicolon_task.dtos.CourseDto;
-import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.entity.Course;
-import com.greatnex.semicolon_task.entity.users.Instructor;
+import com.greatnex.semicolon_task.entity.dtos.CourseDto;
+import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
+import com.greatnex.semicolon_task.entity.models.Course;
+import com.greatnex.semicolon_task.entity.models.users.Instructor;
 import com.greatnex.semicolon_task.exception.CourseNotFoundException;
 import com.greatnex.semicolon_task.repository.CourseRepository;
 import com.greatnex.semicolon_task.repository.InstructorRepository;
@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -99,7 +100,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Optional<Course> findCourseById(Long id) {
+    public Optional <Course> findCourseById(Long id) {
 
         return courseRepository.findById(id);
     }

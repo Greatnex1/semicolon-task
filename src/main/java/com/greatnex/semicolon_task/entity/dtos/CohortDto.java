@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.dtos;
+package com.greatnex.semicolon_task.entity.dtos;
 
 
 import lombok.Data;
@@ -8,6 +8,7 @@ import lombok.Setter;
 @Data
 public class CohortDto {
 
+     private Long id;
 
     private String cohortName;
 
@@ -22,6 +23,8 @@ public class CohortDto {
     private String announcement;
 
     private String shareResource;
+
+    private String dateCohortStarted;
 
 
 }

@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.dtos;
+package com.greatnex.semicolon_task.entity.dtos;
 
 import lombok.Data;
 import lombok.Getter;

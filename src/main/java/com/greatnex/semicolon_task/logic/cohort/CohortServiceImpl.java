@@ -1,12 +1,13 @@
 package com.greatnex.semicolon_task.logic.cohort;
 
-import com.greatnex.semicolon_task.dtos.CohortDto;
-import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.entity.users.Instructor;
-import com.greatnex.semicolon_task.entity.users.Learner;
+import com.greatnex.semicolon_task.entity.dtos.CohortDto;
+import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
+import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
+import com.greatnex.semicolon_task.entity.models.Cohort;
+import com.greatnex.semicolon_task.entity.models.users.Instructor;
+import com.greatnex.semicolon_task.entity.models.users.Learner;
 import com.greatnex.semicolon_task.exception.CohortNotFoundException;
+import com.greatnex.semicolon_task.logic.invitation.EmailService;
 import com.greatnex.semicolon_task.repository.CohortRepository;
 import com.greatnex.semicolon_task.repository.LearnerRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
-//I still need to check through view cohort, findbyid and adding instructor to cohort.
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,8 @@ public class CohortServiceImpl implements CohortService{
    private final LearnerRepository learnerRepository;
 
     private ModelMapper cohortMapper;
+
+  //  private EmailService emailService;
 
 
     @Override
@@ -62,24 +65,26 @@ public class CohortServiceImpl implements CohortService{
         return cohortRepository.findAll(pageable);
     }
 
-    @Override
-    public Cohort addLearnerToCohort(LearnerDto learnerDto) {
-        Cohort cohort = cohortRepository.findByCohortName(learnerDto.getEmail()).orElseThrow(()-> new CohortNotFoundException("Cohort Not Found"));
-
-        Learner learner = new Learner();
-
-        learner.setEmail(learnerDto.getEmail());
-        learner.setFirstName(learnerDto.getLastname());
-        learner.setLastName(learnerDto.getLastname());
-        learner.setDateCreated(Instant.now().toString());
-        learner.setLearnerAbout(learnerDto.getLearnerAbout());
-
-        learner.setCohort(cohort);
-        learnerRepository.save(learner);
-        cohort.getListOfLearners().add(learner);
-
-        return cohortRepository.save(cohort);
-    }
+//    @Override
+//    public Cohort addLearnerToCohort(String cohortName, LearnerDto learnerDto) {
+////        Cohort cohort = cohortRepository.findByCohortName(cohortName).orElseThrow(()-> new CohortNotFoundException("Cohort Not Found"));
+//////
+////
+////        Learner student = cohort.getLearner();
+////        student.getListOfCohort().add(learnerDto.getEmail());
+//
+////        learner.setEmail(learnerDto.getEmail());
+////        learner.setFirstName(learnerDto.getLastname());
+////        learner.setLastName(learnerDto.getLastname());
+////        learner.setDateCreated(Instant.now().toString());
+////        learner.setLearnerAbout(learnerDto.getLearnerAbout());
+////
+////        learner.setCohort(cohort);
+////        learnerRepository.save(learner);
+////        cohort.getListOfLearners().add(learner);
+//
+//        return cohortRepository.save(cohort);
+//    }
 
     @Override
     public  Cohort viewCohort(Long id, CohortDto cohortDto) {
@@ -87,13 +92,12 @@ public class CohortServiceImpl implements CohortService{
         log.info("cohort -> {}", savedCohort);
         if (savedCohort != null) {
             cohortMapper.map(cohortDto, savedCohort);
-
         }
         return savedCohort;
     }
 
         @Override
-        public void updateCohort (Long id, CohortDto cohortDto){
+        public void editCohort (Long id, CohortDto cohortDto){
             if (cohortDto == null) {
                 throw new NullPointerException("Cohort object cannot be null");
             }
@@ -101,9 +105,10 @@ public class CohortServiceImpl implements CohortService{
             log.info("cohort -> {}", cohort);
             if (cohort != null) {
                 cohortMapper.map(cohortDto, cohort);
-                cohort.setCohortName(cohortDto.getCohortName());
+                cohort.setCohortAvatar( cohortDto.getCohortAvatar());
                 cohort.setDescription(cohortDto.getDescription());
-                log.info("cohort-->{}", cohort);
+                cohort.setDateCohortStarted(cohortDto.getDateCohortStarted());
+                log.info("cohort update-->{}", cohort);
                 log.info("Update successful");
                 cohortRepository.save(cohort);
             } else {
@@ -113,9 +118,9 @@ public class CohortServiceImpl implements CohortService{
 
 
     @Override
-    public Cohort addInstructorToCohort(InstructorDto instructorDto) throws Exception {
-        Cohort cohort = cohortRepository.findByCohortName(instructorDto.getEmail())
-                .orElseThrow(() -> new Exception("Cohort does not exist"));
+    public Cohort addInstructorToCohort(Long id)  {
+        Cohort cohort = cohortRepository.findById(id)
+                .orElseThrow(() -> new CohortNotFoundException("Cohort does not exist"));
         Instructor instructor = cohort.getInstructor();
         instructor.getCohortList().add(cohort);
 
@@ -123,15 +128,44 @@ public class CohortServiceImpl implements CohortService{
     }
 
     @Override
-    public void deleteCohort(Long id) {
+    public boolean inviteLearnerToCohort(Long learnerId, Long cohortId) {
+        Optional<Learner> learner = learnerRepository.findById(learnerId);
+        Optional<Cohort> cohort = cohortRepository.findById(cohortId);
+
+        if (learner.isPresent() && cohort.isPresent()) {
+            Cohort updatedCohort = cohort.get();
+            updatedCohort.getListOfLearners().add(learner.get().getEmail());
+            cohortRepository.save(updatedCohort);
+
+     // emailService.sendInvitationMessage();
+
+            return true;
+        }
+        return false;
+    }
+
+//    private void sendInvitationEmail(Learner learner, Cohort cohort) {
+//        String subject = "Invitation to Join Cohort: " + cohort.getCohortName();
+//        String body = "Dear " + learner.getFirstName() + ",\n\n" +
+//                "You have been invited to join the cohort: " + cohort.getCohortName() +
+//                ". Please log in to your account to accept this invitation.\n\n" +
+//                "Best regards,\nThe Enum Team";
+
+       // emailService.sendEmail(instructor.getEmail(), subject, body);
+       // sendInvitationEmail(learner.getEmail(),subject, body);
+    //}
+
+    @Override
+    public void deleteCohortById(Long id) {
             cohortRepository.deleteById(id);
     }
 
     @Override
-    public void deleteCohort(String cohort_name) {
+    public void deleteCohortByName(String cohort_name) {
         Cohort cohort =cohortRepository.findByCohortName(cohort_name).orElseThrow(
                 ()-> new CohortNotFoundException("Cohort with name " + cohort_name +"does not exist" ));
         cohortRepository.deleteById(cohort.getId());
+        log.info("cohort removed");
 
              }
 }

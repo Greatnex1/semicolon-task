@@ -1,19 +1,19 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.models;
 
-import com.greatnex.semicolon_task.entity.users.Instructor;
-import com.greatnex.semicolon_task.entity.users.Learner;
+import com.greatnex.semicolon_task.entity.models.users.Instructor;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
 @Data
-
 @RequiredArgsConstructor
 public class Cohort {
+
     @Id
     @GeneratedValue
     private Long id;
@@ -37,8 +37,9 @@ public class Cohort {
     @OneToOne
    private Instructor instructor;
 
-    @OneToOne
-     private Learner learner;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    Set<String> listOfLearners = new HashSet<>();
 
    @OneToMany
    private List<Program> programList = new ArrayList<>();
@@ -47,8 +48,5 @@ public class Cohort {
     @OneToMany
      private List<Course> courseList = new ArrayList<>();
 
-//    @ElementCollection(fetch = FetchType.LAZY)
-//    @ToString.Exclude
-//    Set<String> instructors = new HashSet<>();
 
 }

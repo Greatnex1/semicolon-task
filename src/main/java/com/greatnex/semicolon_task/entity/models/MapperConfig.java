@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.models;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -1,14 +1,17 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Calendar;
 import java.util.Date;
 
-
+@Entity
+@RequiredArgsConstructor
 @Data
 public class LearnerInvitationToken {
 
@@ -24,10 +27,10 @@ public class LearnerInvitationToken {
 
     private Date expiryDate = calculateExpiryDate();
 
-    public LearnerInvitationToken(String token, String userLearner) {
-        this.token = token;
-        this.userLearner = userLearner;
-    }
+//    public LearnerInvitationToken(String token, String userLearner) {
+//        this.token = token;
+//        this.userLearner = userLearner;
+//    }
 
     private Date calculateExpiryDate() {
         Calendar cal = Calendar.getInstance();

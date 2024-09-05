@@ -1,8 +1,7 @@
 package com.greatnex.semicolon_task.web;
 
-import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.dtos.UserProfileDto;
-import com.greatnex.semicolon_task.entity.users.Learner;
+import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
+import com.greatnex.semicolon_task.entity.models.users.Learner;
 import com.greatnex.semicolon_task.exception.InstructorNotFoundException;
 import com.greatnex.semicolon_task.logic.learner.LearnerUserServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class LearnerController {
     }
 
     @PostMapping("/learner/new")
-    public ResponseEntity<?> createLearner(@RequestBody LearnerDto learnerDto) throws Exception {
+    public ResponseEntity<?> createLearner(@RequestBody LearnerDto learnerDto)  {
         return new ResponseEntity<>(learnerUserServiceImp.createNewLearner(learnerDto), HttpStatus.CREATED);
     }
 

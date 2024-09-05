@@ -1,21 +1,25 @@
 package com.greatnex.semicolon_task.logic.program;
 
 
-import com.greatnex.semicolon_task.dtos.ProgramDto;
-import com.greatnex.semicolon_task.entity.Program;
+import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
+import com.greatnex.semicolon_task.entity.models.Program;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import java.util.Optional;
+
+import java.util.List;
+
 public interface ProgramService {
 
-    Program createNewProgram(ProgramDto programDto ) throws Exception;
-    Page<Program> findAllPrograms(Pageable pageable);
+    Program createNewProgram(ProgramDto programDto ) ;
+    Page<Program> findAllProgramsUsingPagination(Pageable pageable);
 
       Program archiveProgram(ProgramDto programDto);
 
-     Program viewProgram(Long id);
+     List<Program> findAllProgramsById(Long id);
 
     void deleteProgramById(Long id);
 
-    public void deleteProgramByName(String title);
+     void deleteProgramByTitle(String title);
+
+     void deleteAllProgram();
 }

@@ -1,7 +1,6 @@
-package com.greatnex.semicolon_task.entity.users;
+package com.greatnex.semicolon_task.entity.models.users;
 
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.entity.Program;
+import com.greatnex.semicolon_task.entity.models.Program;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -50,6 +49,7 @@ public class Learner {
     private List<Program> listOfProgram = new ArrayList<>();
 
 
+    // private PlatformUser platform_user;
 
 
 }

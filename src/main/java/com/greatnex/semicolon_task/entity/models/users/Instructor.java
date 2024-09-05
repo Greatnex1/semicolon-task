@@ -1,12 +1,10 @@
-package com.greatnex.semicolon_task.entity.users;
+package com.greatnex.semicolon_task.entity.models.users;
 
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.entity.Course;
+import com.greatnex.semicolon_task.entity.models.Cohort;
+import com.greatnex.semicolon_task.entity.models.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -56,5 +54,7 @@ public class Instructor {
     @ElementCollection(fetch = FetchType.LAZY)
     @ToString.Exclude
      Set <String> courseList = new HashSet<>();
+
+    // private PlaformUser platform_user;
 
 }

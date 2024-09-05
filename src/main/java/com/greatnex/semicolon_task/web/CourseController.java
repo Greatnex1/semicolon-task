@@ -1,16 +1,11 @@
 package com.greatnex.semicolon_task.web;
 
-import com.greatnex.semicolon_task.dtos.CohortDto;
-import com.greatnex.semicolon_task.dtos.CourseDto;
-import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.entity.Course;
-import com.greatnex.semicolon_task.logic.course.CourseService;
+import com.greatnex.semicolon_task.entity.dtos.CourseDto;
+import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
+import com.greatnex.semicolon_task.entity.models.Course;
 import com.greatnex.semicolon_task.logic.course.CourseServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

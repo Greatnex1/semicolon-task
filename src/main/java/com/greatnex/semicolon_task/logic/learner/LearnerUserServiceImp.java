@@ -1,7 +1,7 @@
 package com.greatnex.semicolon_task.logic.learner;
 
-import com.greatnex.semicolon_task.dtos.LearnerDto;
-import com.greatnex.semicolon_task.entity.users.Learner;
+import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
+import com.greatnex.semicolon_task.entity.models.users.Learner;
 import com.greatnex.semicolon_task.exception.LearnerAlreadyExistException;
 import com.greatnex.semicolon_task.exception.LearnerNotFoundException;
 import com.greatnex.semicolon_task.repository.LearnerRepository;
@@ -38,19 +38,18 @@ public class LearnerUserServiceImp implements LearnerUserService{
            log.info("this email {} is already taken, please use another email",learner.getEmail());
            throw new LearnerAlreadyExistException("This email {} is already taken" + learner.getEmail());
         }
-
-
         return   learnerRepository.save(semicolonLearner);
     }
 
     @Override
-    public List<Learner> viewLearnerProfile() {
+    public List<Learner> findLearnerById() {
 
         return learnerRepository.findAll();
    }
 
     @Override
     public Learner findLearnerByEmail(String email) {
+
      return  learnerRepository.findByEmail(email).orElseThrow(
              ()-> new LearnerNotFoundException("Learner does not exist"));
     }
@@ -77,10 +76,11 @@ public class LearnerUserServiceImp implements LearnerUserService{
     @Override
     public void deleteLearnerByEmail(String email) {
         Learner learner = learnerRepository.findByEmail(email).orElseThrow(
-                ()-> new LearnerNotFoundException("Learner account not found"));
-        learnerRepository.findByEmail(learner.getEmail());
-
-        learnerRepository.findById(learner.getId());
+                () -> new LearnerNotFoundException("Learner account not found"));
+                if (learner != null) {
+            learnerRepository.deleteByEmail(email);
+            log.info("Learner account removed");
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +26,6 @@ public class Program {
 
     private int views;
 
-    @OneToMany
-    private List <ArchiveProgram> archives = new ArrayList<>();
+//    @OneToMany
+//    private List <ArchiveProgram> archives = new ArrayList<>();
 }

@@ -1,12 +1,8 @@
-package com.greatnex.semicolon_task.entity;
+package com.greatnex.semicolon_task.entity.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,7 +24,8 @@ public class Course {
 
     private String learners ;
 
-    private Module module;
+    @OneToOne
+    private EnumModule enumModule;
 
 //   @OneToMany
 //    private Instructors listOfInstructors;
