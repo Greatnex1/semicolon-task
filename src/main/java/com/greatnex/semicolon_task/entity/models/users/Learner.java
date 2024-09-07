@@ -1,11 +1,17 @@
 package com.greatnex.semicolon_task.entity.models.users;
 
+import com.greatnex.semicolon_task.entity.models.Cohort;
+import com.greatnex.semicolon_task.entity.models.PlatformUser;
 import com.greatnex.semicolon_task.entity.models.Program;
+import com.greatnex.semicolon_task.entity.models.ValidEmail;
 import jakarta.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import jakarta.validation.constraints.NotEmpty;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,7 +19,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @RequiredArgsConstructor
 public class Learner {
 
@@ -22,13 +29,16 @@ public class Learner {
     private Long id;
 
     @NotEmpty
+    @NotBlank
     private String firstName;
 
-    @NotEmpty
+    @NotBlank
     private String lastName;
 
-    @Column(unique = true, updatable = false)
-    private String email;
+      @Email( message = "Invalid email address")
+      @NotBlank
+      @ValidEmail
+      private String email;
 
      private  String learnerAbout;
 
@@ -40,11 +50,12 @@ public class Learner {
 
      private String avatar;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @ToString.Exclude
-   Set <String> listOfCohort = new HashSet<>();
+     @ManyToOne
+    private Cohort cohort;
 
-
+//    @ManyToMany
+//    private List<Course> listOfCourse = new ArrayList<>();
+//
     @ManyToMany
     private List<Program> listOfProgram = new ArrayList<>();
 

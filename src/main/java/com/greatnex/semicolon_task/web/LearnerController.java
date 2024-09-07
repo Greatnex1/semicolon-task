@@ -4,18 +4,22 @@ import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
 import com.greatnex.semicolon_task.entity.models.users.Learner;
 import com.greatnex.semicolon_task.exception.InstructorNotFoundException;
 import com.greatnex.semicolon_task.logic.learner.LearnerUserServiceImp;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@Validated
 public class LearnerController {
 
-    @Autowired
+@Autowired
     private LearnerUserServiceImp learnerUserServiceImp;
 
     @GetMapping("/learner")
@@ -24,7 +28,7 @@ public class LearnerController {
     }
 
     @PostMapping("/learner/new")
-    public ResponseEntity<?> createLearner(@RequestBody LearnerDto learnerDto)  {
+    public ResponseEntity<Learner> createLearner(@Valid @RequestBody  LearnerDto learnerDto)  {
         return new ResponseEntity<>(learnerUserServiceImp.createNewLearner(learnerDto), HttpStatus.CREATED);
     }
 
