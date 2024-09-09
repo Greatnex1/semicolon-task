@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @Controller
 public class CourseController {
 
@@ -25,7 +27,7 @@ public class CourseController {
     }
 
     @PostMapping("/course/new")
-    public ResponseEntity<?> createNewCourse(@RequestBody CourseDto courseDto) throws Exception {
+    public ResponseEntity<?> createNewCourse(@RequestBody CourseDto courseDto)  {
         return new ResponseEntity<>(courseService.createNewCourse(courseDto), HttpStatus.CREATED);
     }
 
@@ -34,15 +36,15 @@ public class CourseController {
         return ResponseEntity.ok(courseService.findAllCourseByPagination(Pageable.ofSize(5)));
     }
 
-    @PutMapping("/course/instructor")
-    public ResponseEntity<?> addInstructorToCourse(@RequestBody @Valid Long id, InstructorDto InstructorDto)  {
+    @PostMapping("/course/instructor")
+    public ResponseEntity<?> addInstructorToCourse(@RequestBody @Valid UUID id, InstructorDto InstructorDto)  {
         return ResponseEntity.ok(courseService.assignInstructorToCourse(id, InstructorDto));
     }
 
     @GetMapping("/course/{course_id}")
-    public ResponseEntity<?> findCourseById(@PathVariable @NotBlank(message = "require valid parameter") Long course_id) {
+    public ResponseEntity<?> findCourseById(@PathVariable @NotBlank(message = "require valid parameter") UUID course_id) {
         try {
-            return ResponseEntity.ok(courseService.findCourseById(course_id));
+            return ResponseEntity.ok(courseService.findById(course_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -50,7 +52,7 @@ public class CourseController {
 
 
     @DeleteMapping("/course/delete/{course_id}")
-    public ResponseEntity<?> deleteCourseById(@PathVariable("course_id")Long course_id){
+    public ResponseEntity<?> deleteCourseById(@PathVariable("course_id")UUID course_id){
         courseService.deleteCourse(course_id );
         return new ResponseEntity<>("Successfully removed Course", HttpStatus.OK);
     }

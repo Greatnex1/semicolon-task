@@ -1,9 +1,7 @@
 package com.greatnex.semicolon_task.entity.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 import java.time.Instant;
@@ -15,17 +13,16 @@ import java.util.List;
 @Data
 public class Program {
     @Id
-    @GeneratedValue()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-
+    @NotEmpty
     private String nameOfProgram;
-
+    @NotEmpty
     private String programDetails;
-
+    @NotEmpty
     private String dateCreated;
 
     private int views;
 
-//    @OneToMany
-//    private List <ArchiveProgram> archives = new ArrayList<>();
 }

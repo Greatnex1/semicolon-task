@@ -19,12 +19,12 @@ public class InstructorDto {
 
     @NotEmpty
     private String email;
-
+ @NotEmpty
     private String gender;
-
+ @NotEmpty
     private boolean isActive;
-
+ @NotEmpty
     private String lastActivity;
-
+ @NotEmpty
     public String Organization;
 }

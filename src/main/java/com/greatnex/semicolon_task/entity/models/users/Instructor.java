@@ -3,6 +3,7 @@ package com.greatnex.semicolon_task.entity.models.users;
 import com.greatnex.semicolon_task.entity.models.Cohort;
 import com.greatnex.semicolon_task.entity.models.Course;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.ToString;
@@ -15,7 +16,7 @@ import java.util.Set;
 
 @Entity
 @Data
-public class Instructor {
+public class Instructor  {
     @Id
     @GeneratedValue
     private Long id;
@@ -27,22 +28,24 @@ public class Instructor {
     private String lastName;
 
     @Column(unique = true, updatable = false)
-    private String email;
-
+      private String email;
+    @NotEmpty
     private String organization;
 
     private String dateCreated;
-
+    @NotEmpty
     private String lastActivity;
 
     private boolean active;
 
+    @NotEmpty
     private String country;
-
+    @NotEmpty
     private String state;
 
     private LocalDate dob;
 
+    @NotEmpty
     private String avatarUrl;
 
     @OneToOne

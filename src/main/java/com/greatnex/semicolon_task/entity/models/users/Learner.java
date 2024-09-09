@@ -3,14 +3,18 @@ package com.greatnex.semicolon_task.entity.models.users;
 import com.greatnex.semicolon_task.entity.models.Cohort;
 import com.greatnex.semicolon_task.entity.models.PlatformUser;
 import com.greatnex.semicolon_task.entity.models.Program;
-import com.greatnex.semicolon_task.entity.models.ValidEmail;
-import jakarta.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+//import com.greatnex.semicolon_task.entity.models.ValidEmail;
+//import jakarta.persistence.*;
+//import javax.validation.Valid;
+//import javax.validation.constraints.Email;
+//import javax.validation.constraints.NotBlank;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
@@ -19,8 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
 public class Learner {
 
@@ -28,16 +31,14 @@ public class Learner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    @NotBlank
+
     private String firstName;
 
-    @NotBlank
+
     private String lastName;
 
-      @Email( message = "Invalid email address")
-      @NotBlank
-      @ValidEmail
+
+      @Column(unique = true, updatable = false)
       private String email;
 
      private  String learnerAbout;
@@ -50,12 +51,6 @@ public class Learner {
 
      private String avatar;
 
-     @ManyToOne
-    private Cohort cohort;
-
-//    @ManyToMany
-//    private List<Course> listOfCourse = new ArrayList<>();
-//
     @ManyToMany
     private List<Program> listOfProgram = new ArrayList<>();
 

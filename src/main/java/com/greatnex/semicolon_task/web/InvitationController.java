@@ -21,9 +21,9 @@ public class InvitationController {
 
     @PostMapping("user/learner/invitation")
 
-    public ResponseEntity<String> inviteLearnerToCohort(@RequestBody LearnerDto learnerDto, CohortDto cohortDto, String token){
+    public ResponseEntity<String> inviteLearnerToCohort(@RequestBody LearnerDto learnerDto,  String token){
         try{
-            emailService.sendInvitationMessage(learnerDto, cohortDto, token);
+            emailService.sendInvitationMessage(learnerDto, token);
             return ResponseEntity.ok("Invitation Sent Successfully");
         } catch (MessagingException e) {
             return ResponseEntity.badRequest().body("Failed to send invitation: " +e.getMessage());

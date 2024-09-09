@@ -5,6 +5,7 @@ import com.greatnex.semicolon_task.entity.dtos.UserProfileDto;
 import com.greatnex.semicolon_task.entity.models.users.Instructor;
 import com.greatnex.semicolon_task.exception.InstructorNotFoundException;
 import com.greatnex.semicolon_task.logic.instructor.InstructorServiceImp;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,12 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class InstructorController {
 
-    @Autowired
     private InstructorServiceImp instructorService;
 
 
@@ -33,13 +34,18 @@ public class InstructorController {
     }
 
 
-    @GetMapping("/instructors/all")
-    public ResponseEntity<Optional<Instructor>> getInstructorById(Long id){
+    @GetMapping("/instructors/{instructor_id}")
+    public ResponseEntity<Optional<Instructor>> getInstructorById(@PathVariable Long id){
         return ResponseEntity.ok(instructorService.getInstructorById(id));
     }
 
+    @GetMapping("/instructors/all")
+    public ResponseEntity<List<Instructor>> getInstructors(){
+        return ResponseEntity.ok(instructorService.getInstructors());
+    }
+
     @PostMapping("/instructor/new")
-    public ResponseEntity<?> createInstructor(@RequestBody InstructorDto instructorDto)  {
+    public ResponseEntity<?> createInstructor(@RequestBody @Valid InstructorDto instructorDto)  {
         return new ResponseEntity<>(instructorService.createNewInstructor(instructorDto), HttpStatus.CREATED);
     }
 

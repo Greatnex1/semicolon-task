@@ -34,8 +34,12 @@ public class Cohort {
 
     private String shareResource;
 
-    @OneToOne
-   private Instructor instructor;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    Set<String> listOfInstructors = new HashSet<>();
+
+  //  @ManyToMany
+  //  private Set<CohortInvitation> cohortInvitations = new HashSet<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
     @ToString.Exclude

@@ -10,6 +10,7 @@ import com.greatnex.semicolon_task.repository.InstructorRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ import java.util.UUID;
 @Service
 @AllArgsConstructor
 public class CourseServiceImpl implements CourseService {
-    private final CourseRepository courseRepository;
+    @Autowired
+    private  CourseRepository courseRepository;
 
     private final InstructorRepository instructorRepository;
 
@@ -36,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
 
         course.setCourseTitle(courseDto.getCourseTitle());
         course.setCoursePeriod(courseDto.getCoursePeriod());
-        course.setId(UUID.randomUUID());
+        //course.setId(UUID.fromString(UUID.randomUUID().toString()));
         course.setPolls(courseDto.getPolls());
         course.setQuizzes(courseDto.getQuizzes());
 
@@ -46,31 +48,26 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course viewCourse(Long courseId, CourseDto courseDto) {
+    public Optional<Course> viewCourse(UUID courseId) {
 
-        Course viewCourse = courseRepository.findById(courseId).orElseThrow(
-                () -> new CourseNotFoundException("Course not found"));
-        if (viewCourse != null) {
-            modelMapper.map(courseDto, viewCourse);
 
-        }
-        return viewCourse;
+        return courseRepository.findById(courseId);
+
     }
-
-
     @Override
-    public Course updateCourse(Long courseId, CourseDto courseDto) throws Exception {
-        Course updateCourse = courseRepository.findById(courseId).orElseThrow(()-> new Exception("Course not found"));
+    public Course updateCourse(UUID courseId, CourseDto courseDto) throws Exception {
+        var updateCourse = courseRepository.findById(courseId).orElseThrow(()-> new Exception("Course not found"));
         if(updateCourse != null) {
             modelMapper.map(courseDto, updateCourse);
             updateCourse.setCoursePeriod(courseDto.getCoursePeriod());
+            updateCourse.setQuizzes(courseDto.getQuizzes());
              courseRepository.save(updateCourse);
         }
        return  updateCourse;
     }
 
     @Override
-    public Set<String> assignInstructorToCourse(Long id, InstructorDto instructorDto)  {
+    public Set<String> assignInstructorToCourse(UUID id, InstructorDto instructorDto)  {
        Course course = courseRepository.findById(id).orElseThrow(()-> new CourseNotFoundException("Course does not exist"));
 
         Instructor instructor = new Instructor();
@@ -95,19 +92,32 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public List<Course> getAllCourseWithoutPagination() {
+        return courseRepository.findAll();
+    }
+
+    @Override
     public void findCourseByTitle(String courseTitle) {
         courseRepository.findByCourseTitle(courseTitle);
     }
 
     @Override
-    public Optional <Course> findCourseById(Long id) {
-
+    public Optional<Course> findById(UUID id) {
         return courseRepository.findById(id);
     }
 
+//    @Override
+//    public List<Course> findCourseById(UUID id) {
+//     return courseRepository.findCourseById(id);
+//    }
+
     @Override
-    public void deleteCourse(Long courseId) {
-        courseRepository.deleteById(courseId);
+    public void deleteCourse(UUID courseId) {
+        var courseExist = courseRepository.existsById(courseId);
+        if(!courseExist){
+            throw new IllegalStateException("course id "+ courseId + "not found");
+        }
+      courseRepository.deleteById(courseId);
 
     }
 

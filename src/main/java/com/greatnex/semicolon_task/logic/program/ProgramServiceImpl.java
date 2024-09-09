@@ -2,6 +2,7 @@ package com.greatnex.semicolon_task.logic.program;
 
 import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
 import com.greatnex.semicolon_task.entity.models.Program;
+import com.greatnex.semicolon_task.exception.CohortAlreadyExistException;
 import com.greatnex.semicolon_task.exception.ProgramNotFoundException;
 import com.greatnex.semicolon_task.repository.ProgramRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +14,23 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ProgramServiceImpl implements ProgramService{
-    private final ProgramRepository programRepository;
+
+        private final ProgramRepository programRepository;
 
     private ModelMapper programMapper;
 
     @Override
-    public Program createNewProgram(ProgramDto programDto) {
+    public Program createNewProgram(ProgramDto programDto) throws ProgramAlreadyExistException {
+        if(programRepository.findById(programDto.getId()).isPresent()) {
+            log.info("this program name {} is already taken, please use another name for the program",programDto.getNameOfProgram());
+            throw new ProgramAlreadyExistException("There is a cohort account with  this detail");
+        }
         Program program = new Program();
 
         program.setNameOfProgram(programDto.getNameOfProgram());
@@ -48,14 +55,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         programMapper.map(archiveProgram, programDto);
 
-//        archiveProgram.setNameOfProgram(programDto.getNameOfProgram());
-//        archiveProgram.setProgramDetails(programDto.getProgramDetails());
-//        archiveProgram.setDateArchived(Instant.now().toString());
 
       programRepository.save(archiveProgram);
-//      archiveProgram.getArchives().add(archiveProgram);
-//
-//      programRepository.save(archiveProgram);
+
 
       log.info("Program Archived");
 
@@ -64,9 +66,12 @@ public class ProgramServiceImpl implements ProgramService{
    }
 
     @Override
-    public List<Program>  findAllProgramsById(Long id) {
+    public List<Program> findAllProgramsWithoutPagination() {
         return programRepository.findAll();
+    }
 
+    Optional<Program> findProgramById(Long id){
+        return programRepository.findById(id);
     }
 
     @Override

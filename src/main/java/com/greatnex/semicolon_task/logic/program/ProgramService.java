@@ -7,15 +7,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProgramService {
 
-    Program createNewProgram(ProgramDto programDto ) ;
+    Program createNewProgram(ProgramDto programDto ) throws ProgramAlreadyExistException;
+
     Page<Program> findAllProgramsUsingPagination(Pageable pageable);
 
       Program archiveProgram(ProgramDto programDto);
 
-     List<Program> findAllProgramsById(Long id);
+     List<Program> findAllProgramsWithoutPagination();
+
+   //  Optional<Program> findProgramById(Long id);
 
     void deleteProgramById(Long id);
 

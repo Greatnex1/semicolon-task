@@ -2,8 +2,9 @@ package com.greatnex.semicolon_task.web;
 
 import com.greatnex.semicolon_task.entity.dtos.CohortDto;
 import com.greatnex.semicolon_task.entity.models.Cohort;
+import com.greatnex.semicolon_task.exception.CohortAlreadyExistException;
 import com.greatnex.semicolon_task.logic.cohort.CohortService;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,25 +31,6 @@ public class CohortController {
     }
 
 
-    @PostMapping("/cohort/new")
-    public ResponseEntity<?> createCohort(@RequestBody CohortDto cohortDto) throws Exception {
-        return new ResponseEntity<>(cohortService.createNewCohort(cohortDto), HttpStatus.CREATED);
-    }
-
-    @GetMapping("/cohorts")
-    public ResponseEntity<Page<Cohort>> getAllCohortOnThePlatform(){
-        return ResponseEntity.ok(cohortService.findAllCohortByPagination(Pageable.ofSize(10)));
-    }
-
-    @GetMapping("/cohort/{cohort_id}")
-    public ResponseEntity<?> findCohortById(@PathVariable @NotBlank(message = "require valid parameter") Long cohort_id) {
-        try {
-            return ResponseEntity.ok(cohortService.findCohortById(cohort_id));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
     @GetMapping("/cohort/all")
     public ResponseEntity <List<Cohort>> getAllCohortWithoutPagination()  {
         try {
@@ -58,10 +40,20 @@ public class CohortController {
         }
     }
 
-//    @PosttMapping("/cohort/learner")
-//    public ResponseEntity<?> addLearnerToCohort(@RequestBody @Valid String cohort_name, LearnerDto learnerDto) {
-//    //    return ResponseEntity.ok(cohortService.(cohort_name, learnerDto));
-//    }
+    @GetMapping("/cohorts")
+    public ResponseEntity<Page<Cohort>> getAllCohortOnThePlatform(){
+        return ResponseEntity.ok(cohortService.findAllCohortByPagination(Pageable.ofSize(10)));
+    }
+
+    @GetMapping("/cohort/{cohort_id}")
+    public ResponseEntity<?> findCohortById(@PathVariable Long cohort_id ) throws CohortAlreadyExistException {
+        return ResponseEntity.ok(cohortService.findCohortById(cohort_id));
+
+    }
+    @PostMapping("/cohort/new")
+    public ResponseEntity<?> createCohort( @NotEmpty @RequestBody  CohortDto cohortDto) throws Exception {
+        return new ResponseEntity<>(cohortService.createNewCohort(cohortDto), HttpStatus.CREATED);
+    }
 
     @DeleteMapping("/cohort/delete/{cohort_id}")
     public ResponseEntity<?> removeCohortById(@PathVariable("cohort_id")Long cohort_id){

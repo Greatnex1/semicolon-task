@@ -1,11 +1,12 @@
 package com.greatnex.semicolon_task.logic.instructor;
 
-import com.greatnex.semicolon_task.dtos.InstructorDto;
-import com.greatnex.semicolon_task.dtos.UserProfileDto;
-import com.greatnex.semicolon_task.entity.users.Instructor;
+import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
+import com.greatnex.semicolon_task.entity.dtos.UserProfileDto;
+import com.greatnex.semicolon_task.entity.models.users.Instructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -16,11 +17,13 @@ public interface InstructorService {
 
     Instructor updateInstructorProfile(Long userid, UserProfileDto profile) throws Exception;
 
-    Page<Instructor> findAllInstructorsUsingPagination(Pageable pageable);
+    Page<Instructor>getAllInstructorsUsingPagination(Pageable pageable);
 
-    Optional<Instructor> findInstructorById(Long id);
+    List<Instructor> getInstructors();
 
-    void deleteInstructorByEmail(String email);
+    Optional<Instructor> getInstructorById(Long id);
+
+    void removeInstructorByEmail(String email);
 
     void deleteInstructorById(Long id);
 }
