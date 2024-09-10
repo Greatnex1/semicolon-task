@@ -35,7 +35,7 @@ public class InstructorServiceImp implements InstructorService{
         instructor.setLastName(instructorDto.getLastname());
         //instructor.setActive(true);
 
-        Instructor savedInstructor = instructorRepository.findInstructorByEmail(instructorDto.getEmail().toLowerCase()).orElse(null);
+        Instructor savedInstructor = instructorRepository.findInstructorByEmail(instructorDto.getEmail()).orElse(null);
 
         if (savedInstructor != null){
             log.warn("Instructor with this email already exist :{} ", instructorDto.getEmail());

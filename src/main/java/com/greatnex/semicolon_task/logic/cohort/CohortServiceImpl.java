@@ -40,7 +40,7 @@ public class CohortServiceImpl implements CohortService{
 
    private EmailService emailService;
 
-   private final TokenRepository tokenRepository;
+   //private final TokenRepository tokenRepository;
 
     @Override
     public Cohort createNewCohort(CohortDto cohortDto) throws CohortAlreadyExistException {
@@ -62,17 +62,28 @@ public class CohortServiceImpl implements CohortService{
     @Override
     public Optional<Cohort> findCohortById(Long id)  {
 
+ if(cohortRepository.findCohortById(id).isEmpty()){
+     log.warn("This cohort does not exist {}" , id);
+ }
         return cohortRepository.findById(id);
 
     }
 
     @Override
     public List<Cohort> findAllCohorts() {
+     var noCohort =  cohortRepository.findAll();
+            if(noCohort.isEmpty()){
+            log.warn("No cohort exists {}" , noCohort);
+        }
         return cohortRepository.findAll();
     }
 
     @Override
     public Page<Cohort> findAllCohortByPagination(Pageable pageable) {
+        var noCohortFound =  cohortRepository.findAll();
+        if(noCohortFound.isEmpty()){
+            log.warn("No cohort exists {}" , noCohortFound);
+        }
         return cohortRepository.findAll(pageable);
     }
 
@@ -83,18 +94,15 @@ public class CohortServiceImpl implements CohortService{
                 throw new NullPointerException("Cohort object cannot be null");
             }
             Cohort cohort = cohortRepository.findById(id).orElseThrow(() -> new RuntimeException("Cohort not found"));
-            log.info("cohort -> {}", cohort);
-            if (cohort != null) {
-                cohortMapper.map(cohortDto, cohort);
+            log.info("cohort id -> {}", cohort.getId());
+            cohortMapper.map(cohortDto, cohort);
                 cohort.setCohortAvatar( cohortDto.getCohortAvatar());
                 cohort.setDescription(cohortDto.getDescription());
                 cohort.setDateCohortStarted(cohortDto.getDateCohortStarted());
                 log.info("cohort update-->{}", cohort);
                 log.info("Update successful");
                 cohortRepository.save(cohort);
-            } else {
-                throw new NullPointerException();
-            }
+
         }
 
 

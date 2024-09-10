@@ -3,6 +3,7 @@ package com.greatnex.semicolon_task.web;
 import com.greatnex.semicolon_task.entity.dtos.CourseDto;
 import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
 import com.greatnex.semicolon_task.entity.models.Course;
+import com.greatnex.semicolon_task.exception.CourseAlreadyExistException;
 import com.greatnex.semicolon_task.logic.course.CourseServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -27,7 +28,7 @@ public class CourseController {
     }
 
     @PostMapping("/course/new")
-    public ResponseEntity<?> createNewCourse(@RequestBody CourseDto courseDto)  {
+    public ResponseEntity<?> createNewCourse(@RequestBody CourseDto courseDto)throws CourseAlreadyExistException {
         return new ResponseEntity<>(courseService.createNewCourse(courseDto), HttpStatus.CREATED);
     }
 

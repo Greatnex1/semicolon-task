@@ -1,10 +1,12 @@
 package com.greatnex.semicolon_task.logic.learner;
 
 import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
+import com.greatnex.semicolon_task.entity.models.Cohort;
 import com.greatnex.semicolon_task.entity.models.users.Learner;
 import com.greatnex.semicolon_task.exception.LearnerAlreadyExistException;
 import com.greatnex.semicolon_task.exception.LearnerNotFoundException;
 import com.greatnex.semicolon_task.repository.LearnerRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -12,8 +14,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+//import javax.servlet.http.HttpServletRequest;
+//import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -25,27 +31,39 @@ public class LearnerUserServiceImp implements LearnerUserService{
 
     @Override
     public Learner createNewLearner(LearnerDto learnerDto) {
+        if(learnerRepository.findByEmail(learnerDto.getEmail().toLowerCase()).isPresent()) {
+            log.info("this email {} is already taken, please use another email",learnerDto.getEmail());
+            throw new LearnerAlreadyExistException("There is a Learner account with  this detail");
+        }
 
         Learner semicolonLearner = new Learner();
-        semicolonLearner.setEmail(learnerDto.getEmail());
+        semicolonLearner.setEmail(learnerDto.getEmail().toLowerCase().trim());
+        isValidEmail(learnerDto.getEmail());
         semicolonLearner.setFirstName(learnerDto.getFirstname());
         semicolonLearner.setLastName(learnerDto.getLastname());
         semicolonLearner.setDateCreated(Instant.now().toString());
+        semicolonLearner.setLearnerAbout(learnerDto.getLearnerAbout());
+       // semicolonLearner.setCohort(new Cohort());
+        semicolonLearner.setActive(true);
 
-        Learner learner = learnerRepository.findByEmail(learnerDto.getEmail()).orElse(null);
-
-                if (learner!=null){
-           log.info("this email {} is already taken, please use another email",learner.getEmail());
-           throw new LearnerAlreadyExistException("This email {} is already taken" + learner.getEmail());
-        }
         return   learnerRepository.save(semicolonLearner);
     }
 
+    public boolean  isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return Pattern.compile(emailRegex).matcher(email).matches();
+    }
+
     @Override
-    public List<Learner> findLearnerById() {
+    public List<Learner> getAllLearner() {
 
         return learnerRepository.findAll();
    }
+
+    @Override
+    public Optional<Learner> findById(Long id) {
+        return learnerRepository.findById(id);
+    }
 
     @Override
     public Learner findLearnerByEmail(String email) {
@@ -61,6 +79,7 @@ public class LearnerUserServiceImp implements LearnerUserService{
         learnerMapper.map(profile, learner);
           learner.setLearnerAbout(profile.getLearnerAbout());
          learner.setAvatar(profile.getAvatarUrl());
+         learner.setDateCreated(Instant.now().toString());
 
         learnerRepository.save(learner);
           }
@@ -68,7 +87,7 @@ public class LearnerUserServiceImp implements LearnerUserService{
      }
 
     @Override
-    public Page<Learner> findAllLearners(Pageable pageable) {
+    public Page<Learner> findAllLearnersUsingPagination(Pageable pageable) {
 
         return learnerRepository.findAll(pageable);
     }

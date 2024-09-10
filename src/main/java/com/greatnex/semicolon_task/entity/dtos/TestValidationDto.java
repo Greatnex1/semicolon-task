@@ -4,20 +4,15 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Data
-public class InstructorDto {
-
-   private  Long id;
+public class TestValidationDto {
 
     @NotBlank
-    private String firstname;
+    private String firstName;
 
     @NotBlank
-    private String lastname;
+    private String lastName;
 
     @NotBlank
     @Email
@@ -27,11 +22,24 @@ public class InstructorDto {
     private String gender;
 
 
-    private boolean isActive;
+    @NotBlank
+    private String learnerAbout;
 
-    @NotEmpty
-    private String lastActivity;
+    @NotBlank
+    private String location;
+
+    @NotBlank
+    private String country;
+
+    @NotBlank
+    private String state;
+
+    @NotBlank
+    private String dob;
 
     @NotEmpty
     public String Organization;
+
+
+
 }

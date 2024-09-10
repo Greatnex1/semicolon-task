@@ -10,6 +10,7 @@ package com.greatnex.semicolon_task.entity.dtos;
 //import javax.validation.constraints.NotNull;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.Getter;
@@ -20,31 +21,35 @@ import lombok.Setter;
 @Setter
 public class LearnerDto {
 
-    @NotEmpty
-      private String firstname;
-    @NotEmpty
-      private String lastname;
+    @NotBlank
+    private String firstname;
 
-    @NotEmpty
-    @Email(message = "Invalid email address")
-      private String email;
+    @NotBlank
+    private String lastname;
 
-    @NotEmpty
-     private String gender;
+    @NotBlank
+    @Email
+    private String email;
 
-    @NotEmpty
+    @NotBlank
+    private String gender;
+
+
+    @NotBlank
      private String learnerAbout;
 
-    @NotEmpty
+    @NotBlank
      private String location;
 
-    @NotEmpty
+    @NotBlank
      private String country;
 
-    @NotEmpty
+    @NotBlank
      private String state;
-    @NotEmpty
+
+    @NotBlank
     private String dob;
+
     @NotEmpty
     private String avatarUrl;
 

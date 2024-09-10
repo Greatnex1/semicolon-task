@@ -12,6 +12,7 @@ public class ProgramDto {
 
     @NotEmpty
     private String nameOfProgram;
+
   @NotEmpty
     private String programDetails;
 }

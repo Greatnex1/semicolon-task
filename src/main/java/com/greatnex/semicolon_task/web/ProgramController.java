@@ -2,6 +2,7 @@ package com.greatnex.semicolon_task.web;
 
 import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
 import com.greatnex.semicolon_task.entity.models.Program;
+import com.greatnex.semicolon_task.logic.program.ProgramAlreadyExistException;
 import com.greatnex.semicolon_task.logic.program.ProgramService;
 import com.greatnex.semicolon_task.logic.program.ProgramServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProgramController {
     }
 
     @PostMapping("/program/new")
-    public ResponseEntity<?> createNewProgram(@RequestBody ProgramDto programDto)  {
+    public ResponseEntity<?> createNewProgram(@RequestBody ProgramDto programDto) throws ProgramAlreadyExistException {
         return new ResponseEntity<>(programService.createNewProgram(programDto), HttpStatus.CREATED);
     }
 

@@ -1,15 +1,17 @@
 package com.greatnex.semicolon_task.entity.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.ToString;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
 
+@Entity
+@Data
 public class PlatformUser {
 
     @Id
@@ -23,6 +25,7 @@ public class PlatformUser {
     private String lastName;
 
     @Column(unique = true, updatable = false)
+    @Email
     private String email;
 
     private String organization;
@@ -40,6 +43,8 @@ public class PlatformUser {
     private LocalDate dob;
 
     private String avatarUrl;
+
+ private PlatformUserType platformUserType;
 
 
 //

@@ -11,13 +11,15 @@ import java.util.function.LongFunction;
 @Data
 public class CourseDto {
 
- //   private Long id;
- @NotEmpty
+    @NotEmpty
     private String courseTitle;
+
     @NotEmpty
     private String coursePeriod;
+
     @NotEmpty
     private String quizzes;
+
     @NotEmpty
     private String polls;
 }

@@ -28,9 +28,10 @@ public class ProgramServiceImpl implements ProgramService{
     @Override
     public Program createNewProgram(ProgramDto programDto) throws ProgramAlreadyExistException {
         if(programRepository.findById(programDto.getId()).isPresent()) {
-            log.info("this program name {} is already taken, please use another name for the program",programDto.getNameOfProgram());
-            throw new ProgramAlreadyExistException("There is a cohort account with  this detail");
+            log.info("Program Already Exist" );
+            throw new ProgramAlreadyExistException("There is a program already with this detail");
         }
+
         Program program = new Program();
 
         program.setNameOfProgram(programDto.getNameOfProgram());
@@ -44,11 +45,26 @@ public class ProgramServiceImpl implements ProgramService{
 
     @Override
     public Page <Program> findAllProgramsUsingPagination(Pageable pageable) {
+        var foundProgram = programRepository.findAll();
+        if(foundProgram.isEmpty())
+        {
+            log.warn("No Program  exist");
+            throw new ProgramNotFoundException("No program found");
+
+        }
+
         return programRepository.findAll(pageable);
     }
 
     @Override
         public Program archiveProgram(ProgramDto programDto)  {
+        var foundProgram = programRepository.findById(programDto.getId());
+        if(foundProgram.isEmpty())
+        {
+            log.warn("No Program  exist");
+            throw new ProgramNotFoundException("No program found");
+
+        }
         Program archiveProgram = programRepository.findById(programDto.getId()).orElseThrow(
                 () -> new ProgramNotFoundException("This Program does not exist"));
 
@@ -67,26 +83,59 @@ public class ProgramServiceImpl implements ProgramService{
 
     @Override
     public List<Program> findAllProgramsWithoutPagination() {
+        var foundProgram = programRepository.findAll();
+        if(foundProgram.isEmpty())
+        {
+            log.warn("No Program  exist");
+            throw new ProgramNotFoundException("No program found");
+
+        }
         return programRepository.findAll();
     }
 
-    Optional<Program> findProgramById(Long id){
+    Optional<Program> findProgramById(Long id) throws ProgramNotFoundException {
+        var foundProgram = programRepository.findById(id);
+        if(foundProgram.isEmpty())
+        {
+            log.info("this program id does not exist -> {}", id);
+            throw new ProgramNotFoundException("There is no program with this id");
+
+        }
         return programRepository.findById(id);
     }
 
     @Override
     public void deleteProgramById(Long id) {
+        var programExist = programRepository.existsById(id);
+        if(!programExist){
+            throw new IllegalStateException("program id "+ id + "not found");
+        }
+
         programRepository.deleteById(id);
 
     }
 
     @Override
     public void deleteProgramByTitle(String title) {
+        var foundProgram = programRepository.findByNameOfProgram(title);
+        if(foundProgram.isEmpty())
+        {
+            log.warn("No Program by this name exist ->{}", title);
+            throw new ProgramNotFoundException("No program found");
+
+        }
         programRepository.findByNameOfProgram(title);
     }
 
     @Override
     public void deleteAllProgram() {
+        var foundProgram = programRepository.findAll();
+        if(foundProgram.isEmpty())
+        {
+            log.warn("No Program  exist");
+            throw new ProgramNotFoundException("No program found");
+
+        }
         programRepository.deleteAll();
     }
 }

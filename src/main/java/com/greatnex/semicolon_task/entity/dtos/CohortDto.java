@@ -1,6 +1,7 @@
 package com.greatnex.semicolon_task.entity.dtos;
 
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.Getter;
@@ -11,7 +12,7 @@ public class CohortDto {
 
      private Long id;
 
-     @NotEmpty
+    @NotEmpty
     private String cohortName;
 
     @NotEmpty
@@ -20,7 +21,7 @@ public class CohortDto {
     @NotEmpty
     private String program;
 
-    @NotEmpty
+
     private String cohortAvatar;
 
     @NotEmpty

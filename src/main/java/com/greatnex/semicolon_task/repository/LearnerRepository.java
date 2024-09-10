@@ -11,4 +11,6 @@ public interface LearnerRepository extends JpaRepository<Learner, Long> {
 
     void deleteByEmail(String email);
 
+
+
 }
