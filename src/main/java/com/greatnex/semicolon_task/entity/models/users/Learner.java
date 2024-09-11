@@ -11,6 +11,7 @@ import com.greatnex.semicolon_task.entity.models.Program;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -40,6 +41,11 @@ public class Learner {
 
       @Column(unique = true, updatable = false)
       private String email;
+
+    @NotBlank
+    private String password;
+
+    private String userName;
 
      private  String learnerAbout;
 

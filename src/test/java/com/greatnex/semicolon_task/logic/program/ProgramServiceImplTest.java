@@ -1,11 +1,8 @@
 package com.greatnex.semicolon_task.logic.program;
 
-import com.greatnex.semicolon_task.entity.dtos.CohortDto;
-import com.greatnex.semicolon_task.entity.dtos.LearnerDto;
 import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
-import com.greatnex.semicolon_task.entity.models.Cohort;
 import com.greatnex.semicolon_task.entity.models.Program;
-import com.greatnex.semicolon_task.entity.models.users.Learner;
+import com.greatnex.semicolon_task.exception.ProgramAlreadyExistException;
 import com.greatnex.semicolon_task.repository.ProgramRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -13,10 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.annotation.Transient;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

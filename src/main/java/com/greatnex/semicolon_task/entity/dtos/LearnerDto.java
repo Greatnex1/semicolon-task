@@ -32,19 +32,25 @@ public class LearnerDto {
     private String email;
 
     @NotBlank
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    @NotBlank
     private String gender;
 
 
-    @NotBlank
+    @NotEmpty
      private String learnerAbout;
 
-    @NotBlank
+    @NotEmpty
      private String location;
 
-    @NotBlank
+    @NotEmpty
      private String country;
 
-    @NotBlank
+    @NotEmpty
      private String state;
 
     @NotBlank

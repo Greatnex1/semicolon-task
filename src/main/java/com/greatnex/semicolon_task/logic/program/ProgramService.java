@@ -3,11 +3,11 @@ package com.greatnex.semicolon_task.logic.program;
 
 import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
 import com.greatnex.semicolon_task.entity.models.Program;
+import com.greatnex.semicolon_task.exception.ProgramAlreadyExistException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProgramService {
 

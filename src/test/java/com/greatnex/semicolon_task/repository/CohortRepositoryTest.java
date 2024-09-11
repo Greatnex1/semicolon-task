@@ -1,25 +1,17 @@
 package com.greatnex.semicolon_task.repository;
 
-import com.greatnex.semicolon_task.entity.Cohort;
-import com.greatnex.semicolon_task.exception.CohortException;
+import com.greatnex.semicolon_task.entity.models.Cohort;
+import com.greatnex.semicolon_task.exception.CohortAlreadyExistException;
 import com.greatnex.semicolon_task.logic.cohort.CohortServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
 //@SpringBootTest
@@ -57,7 +49,7 @@ public class CohortRepositoryTest {
 //    }
 
     @Test
-    public void findCohortById() throws CohortException {
+    public void findCohortById() throws CohortAlreadyExistException {
         Cohort cohort = new Cohort();
         cohort.setId(1L);
         when(cohortRepository.findById(cohort.getId())).thenReturn(Optional.of(cohort));

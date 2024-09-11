@@ -29,9 +29,9 @@ public class InstructorDto {
 
     private boolean isActive;
 
-    @NotEmpty
+ @NotBlank
     private String lastActivity;
 
     @NotEmpty
-    public String Organization;
+    public String organization;
 }

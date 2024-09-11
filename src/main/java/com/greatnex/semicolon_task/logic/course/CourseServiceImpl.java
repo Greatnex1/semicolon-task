@@ -4,6 +4,8 @@ import com.greatnex.semicolon_task.entity.dtos.CourseDto;
 import com.greatnex.semicolon_task.entity.dtos.InstructorDto;
 import com.greatnex.semicolon_task.entity.models.Course;
 import com.greatnex.semicolon_task.entity.models.users.Instructor;
+import com.greatnex.semicolon_task.exception.CohortAlreadyExistException;
+import com.greatnex.semicolon_task.exception.CourseAlreadyExistException;
 import com.greatnex.semicolon_task.exception.CourseNotFoundException;
 import com.greatnex.semicolon_task.repository.CourseRepository;
 import com.greatnex.semicolon_task.repository.InstructorRepository;
@@ -32,8 +34,11 @@ public class CourseServiceImpl implements CourseService {
     private ModelMapper modelMapper;
 
     @Override
-    public Course createNewCourse(CourseDto courseDto) {
-
+    public Course createNewCourse(CourseDto courseDto) throws CourseAlreadyExistException {
+        if(courseRepository.findByCourseTitle(courseDto.getCourseTitle()).isPresent()) {
+            log.info("this cohort name {} is already taken, please use another name for the cohort",courseDto.getCourseTitle());
+            throw new CourseAlreadyExistException("There is a cohort account with  this detail");
+        }
         Course course = new Course();
 
         course.setCourseTitle(courseDto.getCourseTitle());
@@ -123,6 +128,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void deleteAllCourse() {
+
         courseRepository.deleteAll();
     }
 }

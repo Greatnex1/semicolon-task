@@ -2,7 +2,7 @@ package com.greatnex.semicolon_task.logic.program;
 
 import com.greatnex.semicolon_task.entity.dtos.ProgramDto;
 import com.greatnex.semicolon_task.entity.models.Program;
-import com.greatnex.semicolon_task.exception.CohortAlreadyExistException;
+import com.greatnex.semicolon_task.exception.ProgramAlreadyExistException;
 import com.greatnex.semicolon_task.exception.ProgramNotFoundException;
 import com.greatnex.semicolon_task.repository.ProgramRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.logic.program;
+package com.greatnex.semicolon_task.exception;
 
 public class ProgramAlreadyExistException extends Exception{
     public ProgramAlreadyExistException(String message) {

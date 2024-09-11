@@ -1,4 +1,4 @@
-package com.greatnex.semicolon_task.web;
+package com.greatnex.semicolon_task.web.api;
 
 
 import com.greatnex.semicolon_task.entity.dtos.TestValidationDto;
